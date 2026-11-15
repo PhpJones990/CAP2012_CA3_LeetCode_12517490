@@ -1,0 +1,34 @@
+class Solution {
+public:
+    string decodeString(string s) {
+        stack<pair<int, string>> track; 
+        string curr_str = ""; 
+        int curr_num = 0; 
+
+        for (char ch : s) 
+        {
+            if (ch >= '0' && ch <= '9') 
+            {
+                curr_num = curr_num * 10 + (int)(ch - '0'); 
+            } 
+            else if (ch == '[') 
+            {
+                pair<int, string> curr(curr_num, curr_str); 
+                track.push(curr); 
+                curr_str = ""; 
+                curr_num = 0; 
+            }
+            else if (ch == ']') 
+            {
+                pair<int, string> prev = track.top(); 
+                track.pop(); 
+                string repeated = curr_str; 
+                curr_str = prev.second; 
+                for (int i = 0; i < prev.first; i++) curr_str += repeated;  
+            }
+            else curr_str += ch; 
+        }
+
+        return curr_str; 
+    }
+};
